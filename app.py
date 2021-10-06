@@ -17,11 +17,11 @@ with app.app_context():
                       os.getenv('CLIENT_SECRET'), 
                       os.getenv('REDIRECT_URI'))
 
-@app.route("/")
+@app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route("/login")
+@app.route('/login')
 def login_redirect():
     nonce = b64encode(os.urandom(32)).decode()
     state = b64encode(os.urandom(32)).decode()
@@ -29,19 +29,19 @@ def login_redirect():
     session['nonce'] = nonce
     session['state'] = state
 
-    auth_url = current_app.oidc_client.auth_url(state, scope=["openid", "profile", "email"], nonce = nonce)
+    auth_url = current_app.oidc_client.auth_url(state, scope=['openid', 'profile', 'email'], nonce = nonce)
 
     return redirect(auth_url)
 
-@app.route("/callback")
+@app.route('/callback')
 def handle_callback():
     code = request.args.get('code', '')
     if code == '':
-      return "bad or missing code", 400
+      return 'bad or missing code', 400
 
     state = request.args.get('state', '')
     if session.get('state', '') == '' or session['state'] != state:
-        return "bad state", 400
+        return 'bad state', 400
 
     session.pop('state')
 
@@ -52,7 +52,7 @@ def handle_callback():
 
     id_token = current_app.oidc_client.decode(tokens.id_token, nonce=saved_nonce)
 
-    logout_url = current_app.oidc_client.end_session_endpoint + "?id_token_hint=" +  tokens.id_token + "&post_logout_redirect_uri=https://localhost"
+    logout_url = current_app.oidc_client.end_session_endpoint + '?id_token_hint=' +  tokens.id_token + '&post_logout_redirect_uri=https://localhost'
 
     return render_template('post_callback.html', name=id_token['name'], access_token=tokens.access_token, logout_url=logout_url)
 
@@ -76,7 +76,6 @@ def token_required(f):
       return f(*args, **kwargs)
     return decorated_function
 
-
 def scopes_required(scopes):
   def wrapd_function(f):
     @wraps(f)
@@ -91,7 +90,7 @@ def scopes_required(scopes):
     return decorated_function
   return wrapd_function
 
-@app.route("/protected")
+@app.route('/protected')
 @token_required
 @scopes_required(['profile'])
 def protected():
