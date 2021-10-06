@@ -37,11 +37,11 @@ def login_redirect():
 def handle_callback():
     code = request.args.get('code', '')
     if code == '':
-      return 'bad or missing code', 400
+      return 'bad or missing code', HTTPStatus.BAD_REQUEST
 
     state = request.args.get('state', '')
     if session.get('state', '') == '' or session['state'] != state:
-        return 'bad state', 400
+        return 'bad state', HTTPStatus.BAD_REQUEST
 
     session.pop('state')
 
