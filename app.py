@@ -52,7 +52,7 @@ def handle_callback():
 
     id_token = current_app.oidc_client.decode(tokens.id_token, nonce=saved_nonce)
 
-    logout_redirect = os.getenv('PUBLIC_URL', 'https://localhost')
+    logout_redirect = os.getenv('REDIRECT_URI').replace("/callback", "")
     logout_url = current_app.oidc_client.end_session_endpoint + '?id_token_hint=' +  tokens.id_token + '&post_logout_redirect_uri=' + logout_redirect
 
     return render_template('post_callback.html', name=id_token['name'], access_token=tokens.access_token, logout_url=logout_url)
