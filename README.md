@@ -5,11 +5,11 @@ A python with [flask](https://flask.palletsprojects.com/) project that demonstra
 ## Prerequisites
 
 - Have a Crossid tenant, or [sign up](https://crossid.io/signup) for free.
-- [Create a web application](https://developer.crossid.io/docs/guides/howto/create-web-app)
+- [Add a web application](https://developer.crossid.io/docs/guides/howto/add-web-app)
 
 ## Running locally
 
-First, install dependencies
+First, install dependencies:
 
 ```bash
 python3  -m venv env
