@@ -22,9 +22,15 @@ Then run server with:
 ```bash
 CLIENT_ID=<client_id>\
 CLIENT_SECRET=<client_secret> \
-REDIRECT_URI=https://localhost/callback \
-ISSUER_BASE_URL=https://<tenant_id>.crossid.io/oauth2/ \
+REDIRECT_URI=http://localhost:5000/callback \
+ISSUER_BASE_URL=https://<tenant_id>.<region>.crossid.io/oauth2/ \
 ./env/bin/flask run
+```
+
+Optionally, if you encounter "requests.exceptions.SSLError", you would need to export
+
+```bash
+REQUESTS_CA_BUNDLE=<path/to/ca-certificates.crt>
 ```
 
 ## Deploying on Digital Ocean
